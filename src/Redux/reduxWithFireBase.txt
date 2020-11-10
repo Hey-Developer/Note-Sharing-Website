@@ -1,0 +1,91 @@
+To connect our Redux Store with Firebase and firestore follow the steps-->
+
+Step-1: Include firebase in your combine reducers function:
+WHY? --> SO that we can access the data which is store in our cloud database and if you are using firestore also add firestore reducer..
+// Add firebase to reducers
+const rootReducer = combineReducers({
+  firebase: firebaseReducer,
+  firestore: firestoreReducer // <- needed if using firestore
+})
+
+Step:2--> Setting Up App With Store:
+import {  ReactReduxFirebaseProvider, firebaseReducer } from 'react-redux-firebase'
+import { createFirestoreInstance, firestoreReducer } from 'redux-firestore' // <- needed if using firestore
+
+Step:3--> Import firebase config and firebase -->
+import {fbconfig} from './fbconfig';
+import firebase from './fbconfig';
+
+Step:4--> Create react-redux-firebase config
+const rrfConfig = {
+  userProfile: 'users'
+  // useFirestoreForProfile: true // Firestore for Profile instead of Realtime DB
+  // enableClaims: true // Get custom claims along with the profile
+}
+
+Step:5--> Create react-redux-firebase props-->
+const rrfProps = {
+  firebase,
+  config: rrfConfig,
+  dispatch: store.dispatch,
+  createFirestoreInstance // <- needed if using firestore
+}
+
+Step:6--> Setup react-redux so that connect HOC can be used
+function App() {
+  return (
+    <Provider store={store}>
+      <ReactReduxFirebaseProvider {...rrfProps}>
+        <Todos />
+      </ReactReduxFirebaseProvider>
+    </Provider>
+  )
+}
+
+
+--X--X--X--X--X--X--X--X--X--X--X--X--X--X--X--X--X--X--
+
+NOW IF YOU WANNA USE THIS WITH REDUX-THUNK THEN-->
+In order to get the most out of writing your thunks, make sure to set up your thunk middleware using its redux-thunk's withExtraArgument method like so:
+
+just import-->
+import {getFirestore} from 'redux-firestore';
+import { getFirebase } from 'react-redux-firebase'
+
+const middlewares = [
+  thunk.withExtraArgument({getFirebase, getFirestore})
+]
+
+
+X--X--X--X--X--X--X--X--X--X--X--X--X--X--X--X--X--X--X--X--
+TO use firestore u have two options either 
+> use getFirestore method from redux-firestore package 
+OR
+> use useFirestore hook from react-redux-firebase package
+
+for first method u need to use a Store enhancer.. from the redux-firestore package--> which is reduxFirestore, something like this..
+export const store = createStore(
+  rootReducers,
+  compose(
+    applyMiddleware(thunk.withExtraArgument({ getFirebase, getFirestore })),
+    reduxFirestore(fbConfig)
+  )
+);
+
+for second method just import the useFirestore hook from the react-redux-firebase package and use it -->
+const firestore = useFirestore();
+firestore.collection("projects").add({
+  authorFirstName: "CNU",
+  authorLastName: "Singhaniya",
+  authorId: "12345",
+  createdAt: new Date(),
+});
+
+
+--> TO fetch our data from the firestore we need to use the react-redux-firebase package-->
+we have two options one is react-hooks and the other is HOC-->
+
+option-1: use useFirestoreConnect and useFirebaseConnect hooks-->
+option-2: use firestoreConnect and firestoreConnect HOC
+
+for in Detail--> http://react-redux-firebase.com/docs/getting_started.html, https://github.com/prescottprue/redux-firestore

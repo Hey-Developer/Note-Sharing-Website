@@ -1,18 +1,26 @@
 import React from "react";
+import { useDispatch } from "react-redux";
 import { NavLink } from "react-router-dom";
+import { signOutWithFirebase } from "../../Redux/asyncActions.js/authAsyncActions";
 
-function SignedInLinks() {
+function SignedInLinks({ initials }) {
+  const dispatch = useDispatch();
+
+  const handleClick = (e) => {
+    dispatch(signOutWithFirebase());
+  };
+
   return (
     <ul className="right">
       <li>
         <NavLink to="/create">New Project</NavLink>
       </li>
       <li>
-        <NavLink to="/">Log Out</NavLink>
+        <a onClick={handleClick}>Log Out</a>
       </li>{" "}
       <li>
         <NavLink to="/" className="btn btn-floating pink lighten-1">
-          Cnu
+          {initials}
         </NavLink>
       </li>
     </ul>

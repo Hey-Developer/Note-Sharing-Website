@@ -1,10 +1,106 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+@import-normalize; /* bring in normalize.css styles */
 
+html {
+  min-height: 100vh;
+}
 body {
   font-family: sans-serif;
-  background: url("/img/img1.jpg");
+  background: url(./images/bg2.jpg) no-repeat;
+  background-size: 100%;
+  background-position: center;
+  background-attachment: fixed;
+  min-height: 100vh;
+}
+
+form {
+  padding: 2rem;
+  margin-top: 4rem;
+}
+
+/* label color */
+.input-field label {
+  color: rgb(43, 42, 42);
+}
+/* label focus color */
+.input-field input[type]:focus + label {
+  color: rgba(43, 42, 42, 0.671);
+}
+
+form button,
+form h5 {
+  margin: 1.3rem 0;
+}
+
+input[type]:not(.browser-default):focus:not([readonly]),
+textarea.materialize-textarea:focus:not([readonly]) {
+  border-color: #ec407a;
+  box-shadow: none;
+}
+
+.blur-bg {
+  backdrop-filter: blur(11px);
+  -webkit-backdrop-filter: blur(11px);
+  background-color: rgba(255, 255, 255, 0.4);
+  border-radius: 20px;
+}
+
+.project-summary {
+  color: black;
+}
+
+.card-action {
+  background-color: #f5f5f538 !important;
+  border-radius: 0 0 20px 20px !important;
+}
+
+.alert-text {
+  text-decoration: underline;
+}
+
+.link {
+  color: #ec407a;
+  text-decoration: underline;
+  font-size: 1.1rem;
+}
+
+.error-page {
+  background: url(./images/404.jpg) no-repeat;
+  background-size: cover;
+  background-position: center;
+  min-width: 90vw;
+  min-height: 92vh;
+}
+
+.home {
+  margin-top: 35%;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+.verify-div {
+  max-width: 40%;
+  margin: 0 auto;
+}
+
+.verify-div a {
+  color: #ec407a;
+}
+
+.mt {
+  margin-top: 5px;
+}
+
+.font-size-1 {
+  font-size: 1.1rem;
+}
+
+.notification {
+  margin: 1rem 0;
+  background-color: #f5f5f538 !important;
+  border-radius: 5px !important;
+  padding: 10px;
 }
